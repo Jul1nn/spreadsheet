@@ -145,8 +145,6 @@ public:
         }
     }
 
-// Реализуйте метод Evaluate() для бинарных операций.
-// При делении на 0 выбрасывайте ошибку вычисления FormulaError
     double Evaluate(const std::function<const CellInterface* (Position)>& functor) const override {
         double result;
         switch (type_) {
@@ -207,7 +205,6 @@ public:
         return EP_UNARY;
     }
 
-// Реализуйте метод Evaluate() для унарных операций.
     double Evaluate(const std::function<const CellInterface* (Position)>& functor) const override {
         if (type_ == UnaryMinus) {
             return -operand_->Evaluate(functor);
@@ -301,7 +298,6 @@ public:
         return EP_ATOM;
     }
 
-// Для чисел метод возвращает значение числа.
     double Evaluate(const std::function<const CellInterface* (Position)>& functor) const override {
         return value_;
     }

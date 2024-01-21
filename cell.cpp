@@ -69,7 +69,6 @@ private:
     std::unique_ptr<FormulaInterface> formula_;
 };
 
-// Реализуйте следующие методы
 Cell::Cell(const SheetInterface& sheet, std::string text)
     :sheet_(sheet) 
 {

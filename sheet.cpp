@@ -34,25 +34,6 @@ void Sheet::SetCell(Position pos, std::string text) {
     }
     cells_[pos]->Set(std::move(current_cell));
 
-    /*if (cells_.count(pos)) {   
-        Cell current_cell(*this, text);
-        if (current_cell.GetType() == Cell::Type::Formula) {            
-            try {
-                CheckCircularDependency(pos, current_cell.GetReferencedCells());
-            }
-            catch (const CircularDependencyException& exc) {
-                throw exc;
-            }
-        } 
-        for (Position prev_parent_pos : cells_[pos]->GetReferencedCells()) {
-            cells_[prev_parent_pos]->DeleteChildCell(pos);
-        }
-        cells_[pos]->Set(std::move(current_cell));
-    }   
-    if (cells_.count(pos) == 0) {
-        cells_[pos] = std::make_unique<Cell>(*this, text);
-    }*/
-
     for (Position parent_pos : cells_[pos]->GetReferencedCells()) {
         if (cells_.count(parent_pos) == 0) {
             SetCell(parent_pos, "");
@@ -99,8 +80,7 @@ void Sheet::ClearCell(Position pos) {
     if (!pos.IsValid()) {
         throw InvalidPositionException("Position is invalid");
     }
-    if (cells_.count(pos) /* && !cells_.at(pos)->IsEmpty()*/) {
-        //cells_[pos]->Clear();
+    if (cells_.count(pos)) {
         cells_.erase(pos);
         if (print_area_.rows == (pos.row + 1) || print_area_.cols == (pos.col + 1)) {
             print_area_ = FindNewPrintableSize();
